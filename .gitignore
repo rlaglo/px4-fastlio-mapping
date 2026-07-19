@@ -1,0 +1,32 @@
+# ROS 2 and colcon
+build/
+install/
+log/
+
+# Generated mapping output
+*.bag
+*.bt
+*.db3
+*.ot
+*.pcd
+*.ply
+
+# Runtime logs and core dumps
+*.log
+core
+core.*
+
+# Editors and operating systems
+.idea/
+.vscode/
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local environment
+.env
+.env.*
