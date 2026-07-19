@@ -354,3 +354,5 @@ This project builds on [PX4](https://px4.io/),
 [OctoMap](https://octomap.github.io/),
 [Livox-SDK2](https://github.com/Livox-SDK/Livox-SDK2), and
 [ros_gz](https://github.com/gazebosim/ros_gz).
+
+codex was used while making readme
