@@ -6,8 +6,8 @@
 
 Reproducible 3D LiDAR-inertial mapping for PX4 SITL and Gazebo. The stack
 converts simulated LiDAR and IMU data for FAST-LIO, builds a probabilistic 3D
-occupancy map with OctoMap, extracts frontier candidates, and publishes
-FAST-LIO odometry to PX4 as external vision.
+occupancy map with OctoMap, can experimentally extract frontier candidates,
+and publishes FAST-LIO odometry to PX4 as external vision.
 
 > [!IMPORTANT]
 > This repository is a **public preview**. The ROS 2 mapping workspace is
@@ -15,6 +15,9 @@ FAST-LIO odometry to PX4 as external vision.
 > world are still being separated from a development workspace and are not yet
 > included. Until they are published, bring a Gazebo model that provides the
 > topics listed in [Simulator interface](#simulator-interface).
+>
+> Frontier extraction is experimental and remains under active development. It
+> is included for testing and visualization, not as a stable planning API.
 
 ## What it provides
 
@@ -24,7 +27,7 @@ FAST-LIO odometry to PX4 as external vision.
 - FAST-LIO LiDAR-inertial odometry and registered point-cloud mapping
 - ENU/FLU to NED/FRD odometry conversion for PX4 external vision
 - Incremental OctoMap occupancy mapping
-- Configurable frontier voxelization and RViz visualization
+- Experimental frontier voxelization and RViz visualization
 - Commit-pinned source import for reproducible builds
 
 ## Status
@@ -34,7 +37,8 @@ FAST-LIO odometry to PX4 as external vision.
 | Pinned ROS 2 workspace import | Ready |
 | Clean ROS 2 Humble build | Ready |
 | Gazebo-to-ROS sensor bridge script | Ready |
-| FAST-LIO, PX4 odometry, OctoMap, and frontier launch | Ready |
+| FAST-LIO, PX4 odometry, and OctoMap launch | Ready |
+| Frontier detection and visualization | In development |
 | Reference PX4 x500 LiDAR model and world | In progress |
 | Clean-checkout end-to-end SITL release test | Pending model publication |
 
@@ -253,7 +257,10 @@ FAST-LIO `config/velodyne.yaml` file.
 | `/cloud_registered_body` | `sensor_msgs/msg/PointCloud2` | FAST-LIO | OctoMap |
 | `/fmu/in/vehicle_visual_odometry` | `px4_msgs/msg/VehicleOdometry` | `px4bridge` | PX4 |
 | `/octomap_full` | `octomap_msgs/msg/Octomap` | OctoMap server | Frontier voxelizer |
-| `/frontier/points` | `geometry_msgs/msg/PoseArray` | Frontier voxelizer | Planner or visualizer |
+| `/frontier/points` | `geometry_msgs/msg/PoseArray` | Experimental frontier voxelizer | Planner or visualizer |
+
+The `/frontier/*` interface is not stable yet and may change without backward
+compatibility until frontier development reaches a validated release.
 
 Publishing `/fmu/in/vehicle_visual_odometry` does not by itself make PX4 fuse
 the estimate. Configure EKF2 external-vision fusion for the PX4 release in use,
@@ -281,7 +288,7 @@ branches.
 | Component | Source policy | Purpose |
 | --- | --- | --- |
 | [FAST_LIO_ROS2](https://github.com/rlaglo/FAST_LIO_ROS2) | Modified fork | Gazebo conversion and LiDAR-inertial odometry |
-| [octomap_mapping](https://github.com/rlaglo/octomap_mapping) | Modified fork | Occupancy mapping and frontier voxelization |
+| [octomap_mapping](https://github.com/rlaglo/octomap_mapping) | Modified fork | Occupancy mapping and experimental frontier voxelization |
 | [livox_ros_driver2](https://github.com/rlaglo/livox_ros_driver2) | Modified fork | Native ROS 2 Humble package and Livox messages |
 | [px4bridge](https://github.com/rlaglo/px4bridge) | Project repository | ROS odometry to PX4 `VehicleOdometry` |
 | [px4_msgs](https://github.com/PX4/px4_msgs) | Pinned upstream | PX4 ROS 2 message definitions |
@@ -333,6 +340,7 @@ rate, or lower the LiDAR resolution before changing FAST-LIO parameters.
 - Publish clean PX4-Autopilot and PX4 Gazebo model forks
 - Add the reference x500 3D LiDAR model and mapping world
 - Add a one-command end-to-end SITL launcher
+- Validate and stabilize frontier detection, filtering, and topic interfaces
 - Validate installation from a fresh Ubuntu 22.04 checkout
 - Add CI for source import, formatting, and ROS package builds
 - Tag the first reproducible release
