@@ -5,9 +5,9 @@
 ```mermaid
 flowchart LR
     GZ[Gazebo 3D LiDAR and IMU] --> RGB[ros_gz_bridge]
-    RGB --> CONV[Gazebo point-cloud converter]
-    RGB --> LIO[FAST-LIO]
-    CONV --> LIO
+    RGB -->|/lidar/points| CONV[Gazebo point-cloud converter]
+    RGB -->|/imu/data| LIO[FAST-LIO]
+    CONV -->|/lio/raw_points| LIO
     LIO -->|Odometry| PXB[PX4 ROS 2 odometry bridge]
     PXB -->|VehicleOdometry| PX4[PX4 EKF2 external vision]
     LIO -->|Registered point cloud| OCTO[OctoMap server]
@@ -21,15 +21,15 @@ metadata, and user documentation. Algorithm and simulator changes remain in
 their respective forks so that upstream history, licensing, and future rebases
 stay clear.
 
-| Component | Planned source |
+| Component | Source boundary |
 | --- | --- |
 | Workspace orchestration and documentation | This repository |
-| LiDAR-inertial odometry and Gazebo conversion | FAST-LIO ROS 2 fork |
-| Odometry frame and message conversion | `px4bridge` |
-| Occupancy mapping and frontier visualization | OctoMap mapping fork |
-| Vehicle message definitions | Pinned upstream `px4_msgs` revision |
-| Vehicle model and world | PX4 Gazebo models fork |
-| Autopilot configuration | PX4-Autopilot mapping branch |
+| LiDAR-inertial odometry and Gazebo conversion | [`rlaglo/FAST_LIO_ROS2`](https://github.com/rlaglo/FAST_LIO_ROS2) |
+| Odometry frame and message conversion | [`rlaglo/px4bridge`](https://github.com/rlaglo/px4bridge) |
+| Occupancy mapping and frontier visualization | [`rlaglo/octomap_mapping`](https://github.com/rlaglo/octomap_mapping) |
+| Vehicle message definitions | Pinned upstream [`PX4/px4_msgs`](https://github.com/PX4/px4_msgs) revision |
+| Vehicle model and world | PX4 Gazebo models fork (publication pending) |
+| Autopilot configuration | PX4-Autopilot mapping branch (publication pending) |
 
 ## Release boundary
 

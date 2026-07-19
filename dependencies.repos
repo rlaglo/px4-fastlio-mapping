@@ -1,0 +1,21 @@
+repositories:
+  FAST_LIO_ROS2:
+    type: git
+    url: https://github.com/rlaglo/FAST_LIO_ROS2.git
+    version: 627025ca41520d104876cf02cb5aa5966e4861ff
+  octomap_mapping:
+    type: git
+    url: https://github.com/rlaglo/octomap_mapping.git
+    version: 2cf7df7f95a222cb8a4b9959122d794a09fc6011
+  livox_ros_driver2:
+    type: git
+    url: https://github.com/rlaglo/livox_ros_driver2.git
+    version: 7208158a52a20006869e989d914f68951bf7eb4a
+  px4bridge:
+    type: git
+    url: https://github.com/rlaglo/px4bridge.git
+    version: b0e3146ea8e305c180136c489d2202774838927e
+  px4_msgs:
+    type: git
+    url: https://github.com/PX4/px4_msgs.git
+    version: 392e831c1f659429ca83902e66820d7094591410
